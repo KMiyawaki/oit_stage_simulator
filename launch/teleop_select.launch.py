@@ -1,35 +1,17 @@
 import math
 import os
-from types import SimpleNamespace
 
-from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction
-from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PythonExpression
-
-pack_dir = get_package_share_directory('oit_stage_simulator')
-
-
-def declare_arg(name, default_value, description="", choices=None):
-    return SimpleNamespace(
-        name=name,
-        arg=DeclareLaunchArgument(
-            name, default_value=default_value, description=description, choices=choices),
-        conf=LaunchConfiguration(name))
-
-
-def if_condition(conf, op, value):
-    if type(value) == str:
-        return IfCondition(PythonExpression(["'", conf, "'", op, "'", value, "'"]))
-    else:
-        return IfCondition(PythonExpression([conf, op, value]))
+from launch.actions import GroupAction
+from oit_stage_simulator.launch_utils import (PackagePath, declare_arg,
+                                              if_condition)
 
 
 def generate_launch_description():
-    joy_yaml = os.path.join(pack_dir, 'config', 'joy.yaml')
+    path = PackagePath()
+    joy_yaml = os.path.join(path.config, 'joy.yaml')
 
     teleop = declare_arg(
         'teleop', 'key', 'teleop device type', ['joy', 'key', 'mouse', 'none'])

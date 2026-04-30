@@ -1,27 +1,16 @@
 import os
-from types import SimpleNamespace
 
-from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 from launch_ros.descriptions import ParameterFile
 from nav2_common.launch import RewrittenYaml
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction
-from launch.substitutions import LaunchConfiguration
-
-pack_dir = get_package_share_directory('oit_stage_simulator')
-
-
-def declare_arg(name, default_value, description="", choices=None):
-    return SimpleNamespace(
-        name=name,
-        arg=DeclareLaunchArgument(
-            name, default_value=default_value, description=description, choices=choices),
-        conf=LaunchConfiguration(name))
+from launch.actions import GroupAction
+from oit_stage_simulator.launch_utils import PackagePath, declare_arg
 
 
 def generate_launch_description():
+    path = PackagePath()
     use_sim_time = declare_arg(
         'use_sim_time', 'false', '', choices=['true', 'false'])
 
@@ -33,7 +22,7 @@ def generate_launch_description():
               'velocity_smoother.yaml': None,
               'waypoint_follower.yaml': None}
     for k in params.keys():
-        yaml = os.path.join(pack_dir, 'config', 'nav2', k)
+        yaml = os.path.join(path.config_nav2, k)
         params[k] = [ParameterFile(
             RewrittenYaml(
                 source_file=yaml,
