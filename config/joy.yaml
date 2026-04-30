@@ -1,0 +1,18 @@
+/**:
+  ros__parameters:
+    axis_linear: # Forward/Back
+      x: 1
+    scale_linear:
+      x: 0.2
+    scale_linear_turbo:
+      x: 0.4
+
+    axis_angular: # Left/Right
+      yaw: 0
+    scale_angular:
+      yaw: 0.5235987755982988
+    scale_angular_turbo:
+      yaw: 0.6981317007977318
+
+    enable_button: 0 # Trigger
+    enable_turbo_button: 2
