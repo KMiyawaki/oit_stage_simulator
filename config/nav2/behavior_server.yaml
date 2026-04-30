@@ -6,7 +6,7 @@ behavior_server:
     costmap_topic: local_costmap/costmap_raw
     local_footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-    transform_tolerance: 0.1
+    transform_tolerance: 1.0
     local_frame: odom
     global_frame: map
     robot_base_frame: base_link

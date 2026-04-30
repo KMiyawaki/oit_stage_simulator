@@ -14,6 +14,7 @@ planner_server:
 global_costmap:
   global_costmap:
     ros__parameters:
+      transform_tolerance: 100.0
       use_sim_time: false
       global_frame: map
       robot_base_frame: base_link

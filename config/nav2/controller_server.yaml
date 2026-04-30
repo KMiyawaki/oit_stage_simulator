@@ -57,7 +57,7 @@ controller_server:
         ]
       prune_plan: true
       debug_trajectory_details: True
-      transform_tolerance: 0.2
+      transform_tolerance: 1.0
       short_circuit_trajectory_evaluation: True
       
       # !IMPORTANT
@@ -96,6 +96,7 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
+      transform_tolerance: 100.0
       use_sim_time: false
       global_frame: odom
       robot_base_frame: base_link

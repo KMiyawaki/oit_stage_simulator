@@ -107,7 +107,7 @@ def generate_launch_description():
                  executable='lifecycle_manager',
                  name='lifecycle_manager_navigation',
                  output='screen',
-                 parameters=[use_sim_time.conf,
+                 parameters=[{'use_sim_time': use_sim_time.conf},
                              {'autostart': True},
                              {'node_names': lifecycle_nodes}]),
         ]
