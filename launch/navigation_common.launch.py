@@ -1,4 +1,5 @@
 import os
+from types import SimpleNamespace
 
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
@@ -12,10 +13,18 @@ from launch.substitutions import LaunchConfiguration
 pack_dir = get_package_share_directory('oit_stage_simulator')
 
 
+def declare_arg(name, default_value, description="", choices=None):
+    return SimpleNamespace(
+        name=name,
+        arg=DeclareLaunchArgument(
+            name, default_value=default_value, description=description, choices=choices),
+        conf=LaunchConfiguration(name))
+
+
 def generate_launch_description():
-    use_sim_time_arg = DeclareLaunchArgument(
-        'use_sim_time', default_value='false')
-    use_sim_time = LaunchConfiguration(use_sim_time_arg.name)
+    use_sim_time = declare_arg(
+        'use_sim_time', 'false', '', choices=['true', 'false'])
+
     params = {'behavior_server.yaml': None,
               'bt_navigator.yaml': None,
               'controller_server.yaml': None,
@@ -29,7 +38,7 @@ def generate_launch_description():
             RewrittenYaml(
                 source_file=yaml,
                 root_key=None,
-                param_rewrites={'use_sim_time': use_sim_time},
+                param_rewrites={'use_sim_time': use_sim_time.conf},
                 convert_types=True),
             allow_substs=True)]
 
@@ -98,10 +107,10 @@ def generate_launch_description():
                  executable='lifecycle_manager',
                  name='lifecycle_manager_navigation',
                  output='screen',
-                 parameters=[use_sim_time,
+                 parameters=[use_sim_time.conf,
                              {'autostart': True},
                              {'node_names': lifecycle_nodes}]),
         ]
     )
 
-    return LaunchDescription([use_sim_time_arg, navigation_nodes])
+    return LaunchDescription([use_sim_time.arg, navigation_nodes])

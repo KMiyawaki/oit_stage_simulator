@@ -1,4 +1,5 @@
 import os
+from types import SimpleNamespace
 
 from ament_index_python.packages import get_package_share_directory
 
@@ -11,14 +12,19 @@ pack_dir = get_package_share_directory('oit_stage_simulator')
 slam_toolbox_dir = get_package_share_directory('slam_toolbox')
 
 
-def generate_launch_description():
-    world_arg = DeclareLaunchArgument('world', default_value='HRC',
-                                      description='World file relative to the project world file, without .world')
-    world = LaunchConfiguration(world_arg.name)
+def declare_arg(name, default_value, description="", choices=None):
+    return SimpleNamespace(
+        name=name,
+        arg=DeclareLaunchArgument(
+            name, default_value=default_value, description=description, choices=choices),
+        conf=LaunchConfiguration(name))
 
-    teleop_arg = DeclareLaunchArgument('teleop', default_value='key',
-                                       description='teleop device type', choices=['joy', 'key', 'mouse', 'none'])
-    teleop = LaunchConfiguration(teleop_arg.name)
+
+def generate_launch_description():
+    world = declare_arg(
+        'world', 'HRC', 'World file relative to the project world file, without .world')
+    teleop = declare_arg(
+        'teleop', 'key', 'teleop device type', ['joy', 'key', 'mouse', 'none'])
 
     slam_launch = os.path.join(
         slam_toolbox_dir, 'launch', 'online_async_launch.py')
@@ -27,14 +33,14 @@ def generate_launch_description():
 
     stage = IncludeLaunchDescription(PythonLaunchDescriptionSource(
         os.path.join(pack_dir, 'launch', 'stage.launch.py')),
-        launch_arguments={'world': world}.items())
+        launch_arguments={'world': world.conf}.items())
     rviz = IncludeLaunchDescription(PythonLaunchDescriptionSource(
         os.path.join(pack_dir, 'launch', 'rviz.launch.py')),
         launch_arguments={'use_sim_time': 'true', 'rviz_conf': 'mapping'}.items())
     teleop_select = IncludeLaunchDescription(PythonLaunchDescriptionSource(
         os.path.join(pack_dir, 'launch', 'teleop_select.launch.py')),
-        launch_arguments={'teleop': teleop}.items())
+        launch_arguments={'teleop': teleop.conf}.items())
     slam = IncludeLaunchDescription(PythonLaunchDescriptionSource(
         slam_launch), launch_arguments={'use_sim_time': 'true', 'slam_params_file': slam_toolbox_online_yaml}.items())
 
-    return LaunchDescription([world_arg, teleop_arg, stage, rviz, teleop_select, slam])
+    return LaunchDescription([world.arg, teleop.arg, stage, rviz, teleop_select, slam])

@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 
@@ -9,24 +11,31 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 pack_dir = get_package_share_directory('oit_stage_simulator')
 
 
+def declare_arg(name, default_value, description="", choices=None):
+    return SimpleNamespace(
+        name=name,
+        arg=DeclareLaunchArgument(
+            name, default_value=default_value, description=description, choices=choices),
+        conf=LaunchConfiguration(name))
+
+
 def generate_launch_description():
-    rviz_arg = DeclareLaunchArgument('rviz_conf', default_value='simple',
-                                     description='rviz setting', choices=['simple', 'check_urdf', 'mapping', 'navigation', 'lidar', 'none'])
-    rviz_conf = LaunchConfiguration(rviz_arg.name)
+    rviz = declare_arg(
+        'rviz_conf', 'simple', 'rviz setting', ['simple', 'mapping', 'navigation', 'none'])
+
     rviz_conf_path = LaunchConfiguration(
-        rviz_arg.name + '_path', default=[pack_dir, '/rviz/', rviz_conf, '.rviz'])
+        rviz.arg.name + '_path', default=[pack_dir, '/rviz/', rviz.conf, '.rviz'])
 
-    use_sim_time_arg = DeclareLaunchArgument(
-        'use_sim_time', default_value='false', choices=['true', 'false'])
-    use_sim_time = LaunchConfiguration(use_sim_time_arg.name)
+    use_sim_time = declare_arg(
+        'use_sim_time', 'false', '', choices=['true', 'false'])
 
-    rviz = Node(package='rviz2',
-                executable='rviz2',
-                name='rviz2',
-                output='screen',
-                parameters=[{'use_sim_time': use_sim_time}],
-                condition=IfCondition(PythonExpression(
-                    ["'", rviz_conf, "' != 'none'"])),
-                arguments=['-d', rviz_conf_path, '--ros-args', '--log-level', 'rviz2:=WARN'])
+    rviz_node = Node(package='rviz2',
+                     executable='rviz2',
+                     name='rviz2',
+                     output='screen',
+                     parameters=[{'use_sim_time': use_sim_time.conf}],
+                     condition=IfCondition(PythonExpression(
+                         ["'", rviz.conf, "' != 'none'"])),
+                     arguments=['-d', rviz_conf_path, '--ros-args', '--log-level', 'rviz2:=WARN'])
 
-    return LaunchDescription([rviz_arg, use_sim_time_arg, rviz])
+    return LaunchDescription([rviz.arg, use_sim_time.arg, rviz_node])
