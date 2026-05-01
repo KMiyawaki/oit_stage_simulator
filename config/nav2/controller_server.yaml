@@ -6,11 +6,13 @@ controller_server:
     controller_frequency: 10.0
     controller_plugins: ["FollowPath"]
     progress_checker_plugin: “progress_checker” # For Humble and older, Jazzy is also included.
+    current_progress_checker: "progress_checker"
     goal_checker_plugins: ["goal_checker"]
-    min_x_velocity_threshold: 0.0001
-    min_y_velocity_threshold: 0.0001
-    min_theta_velocity_threshold: 0.0001
-    failure_tolerance: 0.0
+    current_goal_checker: "goal_checker"
+    min_x_velocity_threshold: 0.01
+    min_y_velocity_threshold: 0.01
+    min_theta_velocity_threshold: 0.017453292519943295 # python -c "import math; print(math.radians(1.0))"
+    failure_tolerance: 0.5
     odom_topic: "odom"
     enable_stamped_cmd_vel: false
     # Progress checker parameters
@@ -22,25 +24,25 @@ controller_server:
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.15
-      yaw_goal_tolerance: 0.349
+      yaw_goal_tolerance: 0.349 # python -c "import math; print(math.radians(20))"
       stateful: true
     # DWB parameters
     # https://docs.nav2.org/configuration/packages/dwb-params/controller.html
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       # https://docs.nav2.org/configuration/packages/dwb-params/kinematic.html
-      max_vel_theta: 0.6981317007977318
-      min_speed_xy: 0.1
-      max_speed_xy: 0.4
-      min_speed_theta: 0.0 # 0.08726646259971647
+      max_vel_theta: 1.0471975511965976 # python -c "import math; print(math.radians(60))"
+      min_speed_xy: 0.05
+      max_speed_xy: 0.6
+      min_speed_theta: 0.04363323129985824 # python -c "import math; print(math.radians(2.5))"
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.3
+      max_vel_x: 0.6
       max_vel_y: 0.0
-      acc_lim_x: 0.8
+      acc_lim_x: 1.2
       acc_lim_y: 0.0
       acc_lim_theta: 3.141592653589793
-      decel_lim_x: -0.8
+      decel_lim_x: -1.2
       decel_lim_y: 0.0
       decel_lim_theta: -3.141592653589793
       # 
@@ -70,28 +72,24 @@ controller_server:
       ObstacleFootprint.max_scaling_factor: 0.2
       ObstacleFootprint.scaling_speed: 0.25
       # IMPORTANT!
-      # PathAlign.forward_point_distance: 0.01
-      # GoalAlign.forward_point_distance: 0.01
+      # PathAlign.forward_point_distance: 0.05
+      # GoalAlign.forward_point_distance: 0.05
       # RotateToGoal.scale: 32.0
       # RotateToGoal.slowing_factor: 5.0
       # RotateToGoal.lookahead_time: -1.0
       Oscillation.oscillation_reset_dist: 0.10
-      Oscillation.oscillation_reset_angle: 0.2617993877991494
+      Oscillation.oscillation_reset_angle: 0.2617993877991494 # python -c "import math; print(math.radians(15))"
       Oscillation.oscillation_reset_time: 1.0
       Oscillation.x_only_threshold: 0.1
       Oscillation.scale: 0.2
       # https://docs.nav2.org/configuration/packages/dwb-plugins/standard_traj_generator.html
       sim_time: 1.7
       linear_granularity: 0.125
-      angular_granularity: 0.026179938779914945
+      angular_granularity: 0.017453292519943295 # python -c "import math; print(math.radians(1))"
       # https://docs.nav2.org/configuration/packages/dwb-params/iterator.html
       vx_samples: 7
       vy_samples: 0
       vtheta_samples: 5 # !IMPORTANT
-      # 
-      # xy_goal_tolerance: 0.15
-      # trans_stopped_velocity: 0.01
-      # stateful: true
 
 local_costmap:
   local_costmap:
@@ -104,8 +102,8 @@ local_costmap:
       publish_frequency: 1.0
       static_map: false
       rolling_window: true
-      width: 3
-      height: 3
+      width: 5
+      height: 5
       resolution: 0.1
       footprint: "[[0.045, 0.1125], [0.045, -0.1125], [-0.18, -0.1125], [-0.18, 0.1125]]"
       footprint_padding: 0.06
