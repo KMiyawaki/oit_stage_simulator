@@ -18,11 +18,8 @@ def generate_launch_description():
     rviz = IncludeLaunchDescription(PythonLaunchDescriptionSource(
         os.path.join(path.launch, 'rviz.launch.py')),
         launch_arguments={'rviz_conf': 'navigation', 'use_sim_time': 'true'}.items())
-    amcl = IncludeLaunchDescription(PythonLaunchDescriptionSource(
-        os.path.join(path.launch, 'amcl.launch.py')),
-        launch_arguments={'map': map.conf, 'use_sim_time': 'true'}.items())
     navigation_common = IncludeLaunchDescription(PythonLaunchDescriptionSource(
         os.path.join(path.launch, 'navigation_common.launch.py')),
         launch_arguments={'use_sim_time': 'true'}.items())
 
-    return LaunchDescription([map.arg, world.arg, stage, rviz, amcl, navigation_common])
+    return LaunchDescription([map.arg, world.arg, stage, rviz, navigation_common])

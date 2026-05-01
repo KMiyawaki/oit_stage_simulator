@@ -9,7 +9,7 @@ bt_navigator:
     global_frame: map
     robot_base_frame: base_link
     odom_topic: odom
-    use_sim_time: false
+    use_sim_time: true
     error_code_names:
       - compute_path_error_code
       - follow_path_error_code

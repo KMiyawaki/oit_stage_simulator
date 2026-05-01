@@ -1,11 +1,11 @@
 amcl:
   ros__parameters:
-    use_sim_time: false
-    alpha1: 0.025
-    alpha2: 0.025
-    alpha3: 0.05
-    alpha4: 0.025
-    alpha5: 0.03
+    use_sim_time: true
+    alpha1: 0.01 # rot->rot 10% 0.1^2
+    alpha2: 0.007615435494667714 # trans->rot python -c "import math; e=math.radians(5); print(e*e)"
+    alpha3: 0.01 # trans->trans 10% 0.1^2
+    alpha4: 0.0025 # rot->trans 0.05^2
+    alpha5: 0.0025 # for Omni
     base_frame_id: "base_link" #"base_footprint"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
@@ -17,9 +17,9 @@ amcl:
     laser_max_range: 12.0
     laser_min_range: 0.0
     laser_model_type: "likelihood_field"
-    max_beams: 180
-    max_particles: 500
-    min_particles: 100
+    max_beams: 60
+    max_particles: 400
+    min_particles: 200
     odom_frame_id: "odom"
     pf_err: 0.05
     pf_z: 0.99
@@ -31,13 +31,12 @@ amcl:
     sigma_hit: 0.1
     tf_broadcast: true
     transform_tolerance: 5.0
-    update_min_a: 0.05
-    update_min_d: 0.01
-    z_hit: 0.95
+    update_min_a: 0.3490658503988659 # python -c "import math; print(math.radians(20))"
+    update_min_d: 0.05
+    z_hit: 0.80
     z_max: 0.05
     z_rand: 0.05
-    z_short: 0.1
+    z_short: 0.10
     scan_topic: scan
     set_initial_pose: True
     initial_pose: { x: 0.0, y: 0.0, z: 0.0, yaw: 0.0 }
-    

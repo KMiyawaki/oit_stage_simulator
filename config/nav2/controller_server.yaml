@@ -2,7 +2,7 @@
 # https://github.com/ros-navigation/navigation2/issues/2828
 controller_server:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: true
     controller_frequency: 10.0
     controller_plugins: ["FollowPath"]
     progress_checker_plugin: “progress_checker” # For Humble and older, Jazzy is also included.
@@ -97,7 +97,7 @@ local_costmap:
   local_costmap:
     ros__parameters:
       transform_tolerance: 5.0
-      use_sim_time: false
+      use_sim_time: true
       global_frame: odom
       robot_base_frame: base_link
       update_frequency: 5.0
