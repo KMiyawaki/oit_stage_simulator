@@ -33,7 +33,7 @@ controller_server:
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      min_vel_x: -0.1
+      min_vel_x: -0.05
       min_vel_y: 0.0
       max_vel_x: 0.6
       max_vel_y: 0.0
@@ -104,7 +104,10 @@ local_costmap:
       resolution: 0.1
       footprint: "[[0.045, 0.1125], [0.045, -0.1125], [-0.18, -0.1125], [-0.18, 0.1125]]"
       footprint_padding: 0.05
-      plugins: [ "obstacle_layer", "inflation_layer" ]
+      plugins: [ "static_layer", "obstacle_layer", "inflation_layer" ]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: true
       obstacle_layer:
         combination_method: 1
         plugin: "nav2_costmap_2d::ObstacleLayer"
