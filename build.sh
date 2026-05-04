@@ -1,5 +1,10 @@
 #!/bin/bash
 function main(){
+    cd "$(dirname "$0")"
+    local -r TARGET_ROS=`./get_ros_distro.sh`
+    local -r ROS_SETUP="/opt/ros/${TARGET_ROS}/setup.bash"
+    source ${ROS_SETUP}
+
     local -r ROS2_WS=${HOME}/ros2_ws
     local BUILD_ALL=0
     local REBUILD=0

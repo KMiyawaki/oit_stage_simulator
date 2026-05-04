@@ -3,7 +3,7 @@
 function main(){
     local -r PACKAGE="oit_stage_simulator"
     local -r USER_HOME=$(getent passwd $USER | cut -d: -f6)
-    local -r DIST=`${USER_HOME}/ros2_ws/src/${PACKAGE}/get_ros_distoro.sh`
+    local -r DIST=`${USER_HOME}/ros2_ws/src/${PACKAGE}/get_ros_distro.sh`
     source /opt/ros/${DIST}/setup.bash
     source ${USER_HOME}/ros2_ws/install/setup.bash
     export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
