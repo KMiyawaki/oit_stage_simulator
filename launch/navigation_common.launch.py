@@ -9,7 +9,7 @@ from oit_stage_simulator.launch_utils import (PackagePath, amcl_nodes,
 
 def generate_launch_description():
     path = PackagePath()
-    map = declare_arg('map', 'HRC', 'map file name, without .yaml')
+    map = declare_arg('map', '00000000_000000_sample/00000000_000000_sample', 'map file name, without .yaml')
     map_path = LaunchConfiguration(
         map.arg.name + '_path', default=[path.maps, '/', map.conf, '.yaml'])
     use_sim_time = declare_arg(

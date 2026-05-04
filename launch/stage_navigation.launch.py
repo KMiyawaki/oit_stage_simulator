@@ -8,7 +8,7 @@ from oit_stage_simulator.launch_utils import PackagePath, declare_arg
 
 def generate_launch_description():
     path = PackagePath()
-    map = declare_arg('map', 'HRC', 'map file name, without .yaml')
+    map = declare_arg('map', '00000000_000000_sample/00000000_000000_sample', 'map file name, without .yaml')
     world = declare_arg(
         'world', map.conf, 'World file relative to the project world file, without .world')
 

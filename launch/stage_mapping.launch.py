@@ -13,7 +13,7 @@ slam_toolbox_dir = get_package_share_directory('slam_toolbox')
 def generate_launch_description():
     path = PackagePath()
     world = declare_arg(
-        'world', 'HRC', 'World file relative to the project world file, without .world')
+        'world', '00000000_000000_sample/00000000_000000_sample', 'World file relative to the project world file, without .world')
     teleop = declare_arg(
         'teleop', 'key', 'teleop device type', ['joy', 'key', 'mouse', 'none'])
 

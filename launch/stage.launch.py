@@ -9,7 +9,7 @@ from oit_stage_simulator.launch_utils import PackagePath, declare_arg
 def generate_launch_description():
     path = PackagePath()
     world = declare_arg(
-        'world', 'HRC', 'World file relative to the project world file, without .world')
+        'world', '00000000_000000_sample/00000000_000000_sample', 'World file relative to the project world file, without .world')
 
     world_path = LaunchConfiguration(
         world.arg.name + '_path', default=[path.maps, '/', world.conf, '.world'])

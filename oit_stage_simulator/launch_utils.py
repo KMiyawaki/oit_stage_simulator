@@ -44,20 +44,20 @@ def if_condition(conf, op, value):
 class PackagePath:
     def __init__(self, package_name=None):
         if package_name is None:
-            self._pkg_name = os.path.basename(os.path.dirname(__file__))
+            self.pkg_name = os.path.basename(os.path.dirname(__file__))
         else:
-            self._pkg_name = package_name
-        self._share_dir = None
+            self.pkg_name = package_name
+        self.share_dir = None
 
     @property
     def package_name(self):
-        return self._pkg_name
+        return self.pkg_name
 
     @property
     def share(self):
-        if self._share_dir is None:
-            self._share_dir = get_package_share_directory(self._pkg_name)
-        return self._share_dir
+        if self.share_dir is None:
+            self.share_dir = get_package_share_directory(self.pkg_name)
+        return self.share_dir
 
     def join(self, *args):
         return os.path.join(self.share, *args)
