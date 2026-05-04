@@ -1,0 +1,10 @@
+NOTICE
+
+This directory contains configuration files that are based on or incorporate material from the TurtleBot 4 project and Nav2.
+
+- https://github.com/turtlebot/turtlebot4/tree/jazzy/turtlebot4_navigation
+- https://github.com/ros-navigation/navigation2/blob/humble/nav2_bringup/params/nav2_params.yaml
+
+These files have been modified to suit the constraints and requirements of my robot.
+
+Licensed under the Apache License, Version 2.0.

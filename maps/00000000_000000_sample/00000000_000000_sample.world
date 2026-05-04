@@ -1,0 +1,44 @@
+include "../stage/map.inc"
+include "../stage/device.inc"
+
+# set the resolution of the underlying raytrace model in meters
+resolution 0.02
+
+interval_sim 25  # simulation timestep in milliseconds
+
+# configure the GUI window
+window
+(
+  size [700.000 400.000]
+  scale 20
+)
+
+# load an environment bitmap
+floorplan
+(
+  bitmap "./00000000_000000_sample_border.png"
+  size [38.9 24.5 1.5]
+  pose [1.65 7.25 0 0 0]
+)
+
+robot
+(
+  # can refer to the robot by this name
+  name "r0"
+  pose [0 0 0 0]
+)
+
+middle_block(
+  pose [0 2 0 0]
+  color "yellow"
+)
+
+middle_block(
+  pose [0.6 2 0 0]
+  color "red"
+)
+
+middle_block(
+  pose [1.2 2 0 0]
+  color "blue"
+)

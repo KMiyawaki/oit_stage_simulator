@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=stage navigation
+Comment=oit_stage_simulator stage_navigation launcher
+Exec=<<HOME>>/ros2_ws/src/oit_stage_simulator/scripts/stage_navigation.sh
+Icon=oit_stage_navigation
+Terminal=true

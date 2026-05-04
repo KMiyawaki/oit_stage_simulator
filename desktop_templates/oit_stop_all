@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=stop all
+Comment=stop all ROS nodes
+Exec=/home/ubuntu/ros2_ws/src/oit_stage_simulator/scripts/stop_all.sh
+Icon=oit_stop_all
+Terminal=true
